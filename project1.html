@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- 
+This site was made by Christopher Kelly & Stuart Synakowski,
+during Spring of 2019. Help on this project was provided by
+Professor Natasha Banerjee in relation to multiple-object rendering.
+
+Clarkson University
+!-->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+		
+		<style>
+		body {
+			background-color: #000000;
+			background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 100%), url("andromeda.jpg");
+			}
+			canvas {   display : block;   margin : auto;}
+			
+			.container {
+				position: absolute;
+			}
+			
+			#overlay {
+			position: absolute;
+			left: 100px;
+			top: 0px;
+			font-family: "Verdanda", Sans;
+			font-size: 30px;
+			padding: 1em;
+			color: white;
+			}
+		</style>
+			<title>Asteroid Dodger</title>
+			<script type="x-shader/x-vertex" id="vertex-shader">
+			attribute vec4 myPosition;
+			uniform float theta;
+			uniform vec2 mouseCoordinates;
+			void main() {
+				gl_PointSize=10.0;
+				gl_Position.x=myPosition.x *cos(theta)+myPosition.y *sin(theta)+ mouseCoordinates.x;
+				gl_Position.y=-myPosition.x *sin(theta)+myPosition.y *cos(theta)+mouseCoordinates.y;
+				gl_Position.z=0.0;
+				gl_Position.w=1.0;
+				}
+			</script>
+			<script type ="x-shader/x-fragment" id="fragment-shader">
+			
+				void main(){
+					gl_FragColor =vec4(0.0,1.0,0.0,1.0);
+					}				
+				</script>
+				
+				
+			<script type="x-shader/x-vertex" id="vertex-shader_triangles">
+               attribute vec4 myPositions;
+			   varying lowp vec4 tri_Color;
+               uniform float xmove;
+               uniform float xtran;
+               uniform float ytran;
+			   uniform float ymove;
+               void main() {
+                   gl_PointSize = 1.0;
+                   gl_Position.x = myPositions.x + xmove + xtran;
+                   gl_Position.y = myPositions.y + ymove + ytran;
+                   gl_Position.z = .0;
+                   gl_Position.w = 1.0;
+				   tri_Color = gl_Position * 0.5 + 0.5;
+               }
+            </script>
+            
+            <script type="x-shader/x-fragment" id="fragment-shader_triangles">
+				//varying lowp vec4 vColor;
+				varying lowp vec4 tri_Color;
+                void main() {
+					gl_FragColor = tri_Color;
+                //   gl_FragColor = vec4( 1.0, 0.0, 0.2, 1.0 );
+                }
+            </script>			
+				
+				<script type="x-shader/x-vertex" id="vertex-shader_stars">
+               attribute vec4 myPositions;
+               uniform float xmove;
+               uniform float xtran;
+               uniform float ytran;
+               void main() {
+                   gl_PointSize = 1.0;
+                   gl_Position.x = myPositions.x + xmove + xtran;
+                   gl_Position.y = myPositions.y + ytran;
+                   gl_Position.z = .0;
+                   gl_Position.w = 1.0;
+               }
+            </script>
+            
+            <script type="x-shader/x-fragment" id="fragment-shader_stars">
+                void main() {
+                    gl_FragColor = vec4( 0.1, 1.0, 1.0, 0.4 );
+                }
+            </script>
+				
+				
+				
+
+				<script type="text/javascript" src="Common/webgl-utils.js"></script>
+				<script type="text/javascript" src="Common/initShaders.js"></script>
+				<script type="text/javascript" src="Common/MV.js"></script>
+				<script type="text/javascript" src="project1.js"></script>			
+	</head>
+		
+				<body onload="init()" onKeyDown="moveSquareUsingKeys(event)"onKeyUP="StopSquareUsingKeys(event)">
+							<div class="container">
+				<audio id="music" loop="loop" autoplay="autoplay">
+					<source src="xray.mp3" type="audio/mpeg" />
+				</audio>
+				<audio id="defeat">
+					<source src="defeat.mp3" type="audio/mpeg" />
+				</audio>
+				<audio id="victory">
+					<source src="victory.mp3" type="audio/mpeg" />
+				</audio>
+			<canvas id="canvas"></canvas>
+			<div id="overlay">
+				<div>Score: <span id="score"></span></div>
+			</div>
+		</div>
+					<canvas id="gl-canvas" width="1800" height="800">
+					Sorry Cannot See Canvas
+					</canvas>
+					
+
+
+		</body>
+		</html>
