@@ -1,3 +1,6 @@
+Computer Graphics Project (2017) 
+Special Thanks to Christopher Kelly for maintaining this work
+
 The program should be a green polygon with a blue background. 
 Due to my lack of dexterity, when it comes to programming. I snagged. 
 The rotating square as a template to be modified. 
